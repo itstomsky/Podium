@@ -1,0 +1,80 @@
+<h1>PODIUM CLIENT</h1>
+<h3>Product Finder</h3>
+<mat-horizontal-stepper [linear]="isLinear" #stepper>
+  <mat-step [stepControl]="firstFormGroup">
+    <form [formGroup]="firstFormGroup">
+      <ng-template matStepLabel>User Details</ng-template>
+      <mat-form-field>
+        <mat-label>First Name</mat-label>
+        <input matInput placeholder="First Name" formControlName="firstname" required>
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Last Name</mat-label>
+        <input matInput placeholder="Last Name" formControlName="lastname" required>
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Date of Birth</mat-label>
+        <input matInput [matDatepicker]="myPicker" placeholder="Date of Birth" formControlName="dob" required>>
+        <mat-datepicker-toggle matSuffix [for]="myPicker"></mat-datepicker-toggle>
+        <mat-datepicker #myPicker></mat-datepicker>
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Email" formControlName="email" required>
+      </mat-form-field>
+
+      <div>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step [stepControl]="secondFormGroup">
+    <form [formGroup]="secondFormGroup">
+      <ng-template matStepLabel>Property Value & Deposit Amount</ng-template>
+      <mat-form-field>
+        <mat-label>Property Value</mat-label>
+        <input matInput placeholder="Property Value" formControlName="propertyValue" required>
+      </mat-form-field>
+
+      <br />
+
+      <mat-form-field>
+        <mat-label>Deposit Amount</mat-label>
+        <input matInput placeholder="Deposit Amount" formControlName="depositAmount" required>
+      </mat-form-field>
+
+      <br />
+
+      <div>
+        <button mat-button matStepperPrevious>Back</button>
+        <button mat-button matStepperNext>Next</button>
+      </div>
+    </form>
+  </mat-step>
+
+  <mat-step>
+    <ng-template matStepLabel>Available Products</ng-template>
+    <p>You are now done.</p>
+    <mat-list>
+      <mat-list-item> <strong>First Name: </strong> {{ this.firstFormGroup.value.firstname }}</mat-list-item>
+      <mat-list-item> <strong>Last Name: </strong> {{ this.firstFormGroup.value.lastname }}</mat-list-item>
+      <mat-list-item> <strong>Property Value: </strong> {{ this.secondFormGroup.value.propertyValue }}</mat-list-item>
+      <mat-list-item> <strong>Deposit Amount: </strong> {{ this.secondFormGroup.value.depositAmount }}</mat-list-item>
+    </mat-list>
+
+    <div>
+      <button mat-button matStepperPrevious>Back</button>
+      <button mat-button (click)="stepper.reset()">Reset</button>
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>
