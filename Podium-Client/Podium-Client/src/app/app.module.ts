@@ -11,10 +11,14 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatListModule } from '@angular/material/list';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatTableModule } from '@angular/material/table';
+import { AvailableProductsComponent } from './available-products/available-products.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    AvailableProductsComponent
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatButtonModule,
     MatListModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatToolbarModule,
+    MatTableModule
   ],
   providers: [MatDatepickerModule],
   bootstrap: [AppComponent]

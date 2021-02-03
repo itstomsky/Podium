@@ -35,7 +35,7 @@ namespace Podium_API
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Podium_API", Version = "v1" });

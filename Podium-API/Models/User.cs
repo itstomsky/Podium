@@ -1,24 +1,32 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace Podium_API.Models
 {
     public class User
     {
         [BsonId]
+        [Newtonsoft.Json.JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        public ObjectId Id { get; set; }
 
-        [BsonElement("first name")]
+        [BsonElement("firstName")]
+        [JsonProperty("firstName")]
         public string FirstName { get; set; }
 
-        [BsonElement("last name")]
-        public decimal LastName { get; set; }
+        [BsonElement("lastName")]
+        [JsonProperty("lastName")]
+        public string LastName { get; set; }
 
-        [BsonElement("date of birth")]
-        public bool DateOfBirth { get; set; }
+        [BsonElement("dateOfBirth")]
+        [JsonProperty("dateOfBirth")]
+        public DateTime DateOfBirth { get; set; }
 
         [BsonElement("email")]
+        [JsonProperty("email")]
         public string Email { get; set; }
     }
 }

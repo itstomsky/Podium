@@ -1,9 +1,11 @@
-<h1>PODIUM CLIENT</h1>
-<h3>Product Finder</h3>
+<mat-toolbar color="primary">
+  <span>PODIUM Product Finder</span>
+</mat-toolbar>
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
     <form [formGroup]="firstFormGroup">
       <ng-template matStepLabel>User Details</ng-template>
+
       <mat-form-field>
         <mat-label>First Name</mat-label>
         <input matInput placeholder="First Name" formControlName="firstname" required>
@@ -31,7 +33,7 @@
         <mat-label>Email</mat-label>
         <input matInput placeholder="Email" formControlName="email" required>
       </mat-form-field>
-
+      
       <div>
         <button mat-button matStepperNext>Next</button>
       </div>
@@ -64,12 +66,17 @@
 
   <mat-step>
     <ng-template matStepLabel>Available Products</ng-template>
-    <p>You are now done.</p>
+    <p>We found 3 products for you!</p>
+
+    <available-products></available-products>
+
     <mat-list>
-      <mat-list-item> <strong>First Name: </strong> {{ this.firstFormGroup.value.firstname }}</mat-list-item>
-      <mat-list-item> <strong>Last Name: </strong> {{ this.firstFormGroup.value.lastname }}</mat-list-item>
-      <mat-list-item> <strong>Property Value: </strong> {{ this.secondFormGroup.value.propertyValue }}</mat-list-item>
-      <mat-list-item> <strong>Deposit Amount: </strong> {{ this.secondFormGroup.value.depositAmount }}</mat-list-item>
+      <mat-list-item> <strong>First Name: </strong> &nbsp; {{ this.firstFormGroup.value.firstname }}</mat-list-item>
+      <mat-list-item> <strong>Last Name: </strong> &nbsp; {{ this.firstFormGroup.value.lastname }}</mat-list-item>
+      <mat-list-item> <strong>Age: </strong> &nbsp; {{ ageFromDateOfBirthday(this.firstFormGroup.value.dob) }}
+      </mat-list-item>
+      <mat-list-item> <strong>LTV: </strong> &nbsp; {{ (100 -
+        (this.secondFormGroup.value.propertyValue/this.secondFormGroup.value.depositAmount)) }}</mat-list-item>
     </mat-list>
 
     <div>
