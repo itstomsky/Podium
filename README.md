@@ -12,6 +12,6 @@ In order use the Solution:
 
 2) Check appSettings.json to ensure all the database configurations are correct.
 
-3) Once the API is setup and hosted, edit the "assets/config.json" file with api base URL.
+3) Once the API is build and published, edit the "assets/config.json" file with api base URL.
 
 4) Build and Publish PodiumClient, you should be able to now use the Solution.
