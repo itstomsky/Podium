@@ -1,16 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-
-export interface Product {
-  lender: string;
-  interest_rate: number;
-  type: string;
-}
-
-const ELEMENT_DATA: Product[] = [
-  { lender: "Bank 1", interest_rate: 2, type: "Fixed" },
-  { lender: "Bank 2", interest_rate: 3, type: "Variable" },
-  { lender: "Bank 3", interest_rate: 4, type: "Fixed" },
-];
+import { Component, Input, OnInit } from '@angular/core';
+import { Product } from '../models/product.model';
 
 @Component({
   selector: 'available-products',
@@ -18,9 +7,8 @@ const ELEMENT_DATA: Product[] = [
   styleUrls: ['./available-products.component.scss']
 })
 export class AvailableProductsComponent implements OnInit {
-
-  displayedColumns: string[] = ['lender', 'interest_rate', 'type'];
-  dataSource = ELEMENT_DATA;
+  @Input() products: Product[];
+  displayedColumns: string[] = ['lender', 'interestRate', 'type'];
 
   constructor() {}
 

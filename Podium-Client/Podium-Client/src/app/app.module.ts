@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { APP_INITIALIZER, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -14,6 +14,16 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTableModule } from '@angular/material/table';
 import { AvailableProductsComponent } from './available-products/available-products.component';
+import { PodiumService } from './services/podium.service';
+import { ConfigService } from './services/config.service';
+import { AppConfiguration } from './models/app-configuration';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+
+export function initializer(configService: ConfigService){
+  return() => {
+    return configService.load();
+  }
+}
 
 @NgModule({
   declarations: [
@@ -33,9 +43,24 @@ import { AvailableProductsComponent } from './available-products/available-produ
     MatDatepickerModule,
     MatNativeDateModule,
     MatToolbarModule,
-    MatTableModule
+    MatTableModule,
+    HttpClientModule
   ],
-  providers: [MatDatepickerModule],
+  providers: [
+    {
+      provide: AppConfiguration,
+      deps: [HttpClient],
+      useExisting: ConfigService
+    },
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [ConfigService],
+      useFactory: initializer
+    },
+    MatDatepickerModule,
+    PodiumService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

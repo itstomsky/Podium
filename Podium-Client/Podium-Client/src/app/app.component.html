@@ -35,7 +35,7 @@
       </mat-form-field>
       
       <div>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext (click)="registerUser()">Next</button>
       </div>
     </form>
   </mat-step>
@@ -59,24 +59,25 @@
 
       <div>
         <button mat-button matStepperPrevious>Back</button>
-        <button mat-button matStepperNext>Next</button>
+        <button mat-button matStepperNext (click)="getAvailableProducts()">Next</button>
       </div>
     </form>
   </mat-step>
 
   <mat-step>
     <ng-template matStepLabel>Available Products</ng-template>
-    <p>We found 3 products for you!</p>
+    <p>We found {{this.availableProducts.length}} products for you!</p>
 
-    <available-products></available-products>
+    <div *ngIf="this.availableProducts.length > 0">
+      <available-products [products]="this.availableProducts"></available-products>
+    </div>
 
     <mat-list>
       <mat-list-item> <strong>First Name: </strong> &nbsp; {{ this.firstFormGroup.value.firstname }}</mat-list-item>
       <mat-list-item> <strong>Last Name: </strong> &nbsp; {{ this.firstFormGroup.value.lastname }}</mat-list-item>
       <mat-list-item> <strong>Age: </strong> &nbsp; {{ ageFromDateOfBirthday(this.firstFormGroup.value.dob) }}
       </mat-list-item>
-      <mat-list-item> <strong>LTV: </strong> &nbsp; {{ (100 -
-        (this.secondFormGroup.value.propertyValue/this.secondFormGroup.value.depositAmount)) }}</mat-list-item>
+      <mat-list-item> <strong>LTV: </strong> &nbsp; {{ (((this.secondFormGroup.value.propertyValue-this.secondFormGroup.value.depositAmount)/this.secondFormGroup.value.propertyValue)*100) }}</mat-list-item>
     </mat-list>
 
     <div>
