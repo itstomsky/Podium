@@ -10,7 +10,7 @@ In order use the Solution:
   
   -"Products" collection is going to store all available mortgage products. This will be seeded by the API.
 
-2) Check appSettings.json to ensure all the database configurations are correct.
+2) Check "appsettings.json" to ensure all the database configurations are correct.
 
 3) Once the API is build and published, edit the "assets/config.json" file with api base URL.
 
