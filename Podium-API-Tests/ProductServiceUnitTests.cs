@@ -17,6 +17,7 @@ namespace Podium_API_Tests
         [SetUp]
         public void Setup()
         {
+            // arrange
             List<Product> initialData = new List<Product>()
             {
                 new Product("Bank A", 2, "Variable", 60),
@@ -36,6 +37,7 @@ namespace Podium_API_Tests
         [Test]
         public async Task AvailableProductsTest1Async()
         {
+            // arrange
             List<Product> expectedProducts = new List<Product>()
             {
                 new Product("Bank A", 2, "Variable", 60),
@@ -43,8 +45,10 @@ namespace Podium_API_Tests
                 new Product("Bank C", 4, "Variable", 90)
             };
 
+            // act
             var res = await _productService.FindAvailableProductsAsync(250000, 120000); // LTV = 52
 
+            // assert
             Assert.AreEqual(res.Count, expectedProducts.Count);
 
             for (int i=0; i<expectedProducts.Count; i++)
@@ -56,12 +60,16 @@ namespace Podium_API_Tests
         [Test]
         public async Task AvailableProductsTest2Async()
         {
+            // arrange
             List<Product> expectedProducts = new List<Product>()
             {
                 new Product("Bank C", 4, "Variable", 90)
             };
 
+            // act
             var res = await _productService.FindAvailableProductsAsync(250000, 100000); // LTV = 60
+
+            // assert
             Assert.AreEqual(res.Count, expectedProducts.Count);
 
             for (int i = 0; i < expectedProducts.Count; i++)
@@ -73,10 +81,13 @@ namespace Podium_API_Tests
         [Test]
         public async Task AvailableProductsTest3Async()
         {
+            // arrange
             List<Product> expectedProducts = new List<Product>();
 
+            // act
             var res = await _productService.FindAvailableProductsAsync(250000, 25000); // LTV = 90
 
+            // assert
             Assert.AreEqual(res.Count, expectedProducts.Count);
         }
     }
