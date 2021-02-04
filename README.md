@@ -14,4 +14,4 @@ In order use the Solution:
 
 3) Once the API is build and published, edit in PodiumClient the "assets/config.json" file with api base URL.
 
-4) Build and Publish PodiumClient, you should be able to now use the Solution.
+4) Build and Publish PodiumClient, you should be able to use the Solution.
