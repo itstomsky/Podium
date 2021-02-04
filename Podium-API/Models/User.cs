@@ -23,6 +23,7 @@ namespace Podium_API.Models
 
         [BsonElement("dateOfBirth")]
         [JsonProperty("dateOfBirth")]
+        [BsonDateTimeOptions]
         public DateTime DateOfBirth { get; set; }
 
         [BsonElement("email")]

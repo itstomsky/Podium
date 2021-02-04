@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Podium_API.Models;
 using Podium_API.Services;
 
@@ -15,10 +16,10 @@ namespace Podium_API.Controllers
         private readonly ILogger<UserController> _logger;
         private readonly IUserService _userService;
 
-        public UserController(ILogger<UserController> logger, IDatabaseSettings databaseSettings)
+        public UserController(ILogger<UserController> logger, IUserService userService)
         {
             _logger = logger;
-            _userService = new UserService(databaseSettings);
+            _userService = userService;
         }
 
 

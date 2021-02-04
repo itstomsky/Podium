@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using MongoDB.Driver;
 using Podium_API.Models;
 using Podium_API.Services;
 
@@ -18,11 +19,11 @@ namespace Podium_API.Controllers
         private readonly IUserService _userService;
 
 
-        public ProductController(ILogger<ProductController> logger, IDatabaseSettings databaseSettings)
+        public ProductController(ILogger<ProductController> logger, IUserService userService, IProductService productService)
         {
             _logger = logger;
-            _userService = new UserService(databaseSettings);
-            _productService = new ProductService(databaseSettings);
+            _userService = userService;
+            _productService = productService;
         }
 
         
@@ -33,23 +34,25 @@ namespace Podium_API.Controllers
         {
             _logger.LogInformation($"FindProducts called with {id}, {propertyValue} and {depositAmount}");
 
-            if (!ModelState.IsValid) return BadRequest(ModelState);
+            List<Product> availableProducts = new List<Product>();
 
             if (_userService.CheckUserId(id))
             {
                 if (_userService.ValidAge(id))
                 {
-                    return Ok(await _productService.FindAvailableProductsAsync(propertyValue, depositAmount));
-                }
-                else
-                {
-                    // return empty list
-                    return Ok(new List<Product>()); 
+                    availableProducts = await _productService.FindAvailableProductsAsync(propertyValue, depositAmount);
+
+                    if(availableProducts == null)
+                    {
+                        availableProducts = new List<Product>();
+                    }
                 }
             }
             else {
                 return Unauthorized();
-            } 
+            }
+
+            return Ok(availableProducts);
         }
     }
 }

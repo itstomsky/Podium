@@ -1,4 +1,5 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using Newtonsoft.Json;
 
@@ -34,6 +35,16 @@ namespace Podium_API.Models
             InterestRate = interestRate;
             Type = type;
             MinimumLTV = minimumLTV;
+        }
+
+        public bool Equals(Product p)
+        {
+            if(!Lender.Equals(p.Lender)) return false;
+            if(InterestRate != p.InterestRate) return false;
+            if(!Type.Equals(p.Type)) return false;
+            if(MinimumLTV != p.MinimumLTV) return false;
+
+            return true;
         }
     }
 }

@@ -5,27 +5,27 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using MongoDB.Bson;
+using Microsoft.Extensions.Logging;
 
 namespace Podium_API.Services
 {
     public class UserService : IUserService
     {
-        private readonly IMongoCollection<User> _users;
+        private IDatabaseContext _databaseContext;
+        private readonly ILogger<UserService> _logger;
 
-        public UserService(IDatabaseSettings settings)
+
+        public UserService(ILogger<UserService> logger, IDatabaseContext databaseContext)
         {
-            var client = new MongoClient(settings.ConnectionString);
-
-            var database = client.GetDatabase(settings.DatabaseName);
-
-            _users = database.GetCollection<User>(settings.UserCollectionName);
+            _logger = logger;
+            _databaseContext = databaseContext;
         }
 
         public bool CheckUserId(string id)
         {
             try
             {
-                User user = _users.Find(x => x.Id == ObjectId.Parse(id)).FirstOrDefault();
+                User user = _databaseContext.FindUser(ObjectId.Parse(id));
 
                 if (user != null)
                 {
@@ -46,7 +46,7 @@ namespace Podium_API.Services
         {
             try
             {
-                User user = _users.Find(x => x.Id == ObjectId.Parse(id)).FirstOrDefault();
+                User user = _databaseContext.FindUser(ObjectId.Parse(id));
 
                 if (user != null)
                 {
@@ -66,7 +66,7 @@ namespace Podium_API.Services
                     return false;
                 }
             }
-            catch (Exception)
+            catch
             {
                 // Id which cannot be parsed are also invalid
                 return false;
@@ -75,17 +75,25 @@ namespace Podium_API.Services
 
         public async Task<string> RegisterAsync(User user)
         {
-            var oldUser = _users.Find(x => x.Email == user.Email).FirstOrDefault();
+            try
+            {
+                var oldUser = _databaseContext.FindUser(user.Email);
 
-            if (oldUser == null)
-            {
-                await _users.InsertOneAsync(user);
+                if (oldUser == null)
+                {
+                    await _databaseContext.InsertUserAsync(user);
+                }
+                else
+                {
+                    user.Id = oldUser.Id;
+                    await _databaseContext.ReplaceUserAsync(oldUser.Id, user);
+                }
             }
-            else
+            catch (Exception ex)
             {
-                user.Id = oldUser.Id;
-                await _users.ReplaceOneAsync(x => x.Id == oldUser.Id, user);
+                _logger.LogError(ex.Message);
             }
+
 
             return user.Id.ToString();
         }

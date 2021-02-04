@@ -12,7 +12,9 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
+using MongoDB.Driver;
 using Podium_API.Models;
+using Podium_API.Services;
 
 namespace Podium_API
 {
@@ -35,6 +37,17 @@ namespace Podium_API
             services.AddSingleton<IDatabaseSettings>(sp =>
                 sp.GetRequiredService<IOptions<DatabaseSettings>>().Value);
 
+            services.AddSingleton(sp =>
+            {
+                var settings = sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+                var client = new MongoClient(settings.ConnectionString);
+
+                return client.GetDatabase(settings.DatabaseName);
+            });
+            services.AddSingleton<IDatabaseContext, DatabaseContext>();
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProductService, ProductService>();
+
             services.AddControllers().AddNewtonsoftJson(options => options.UseMemberCasing());
             services.AddSwaggerGen(c =>
             {
@@ -45,6 +58,12 @@ namespace Podium_API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            // For testing purpose allow all
+            app.UseCors(builder => builder
+                .AllowAnyOrigin()
+                .AllowAnyMethod()
+                .AllowAnyHeader());
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
