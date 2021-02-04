@@ -32,7 +32,7 @@ namespace Podium_API.Controllers
 
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var result = await _userService.RegisterAsync(user);
+            string result = await _userService.RegisterAsync(user);
 
             return Ok(result);
         }
