@@ -20,9 +20,9 @@ import { AppConfiguration } from './models/app-configuration';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 
 export function initializer(configService: ConfigService){
-  return() => {
+  return () => {
     return configService.load();
-  }
+  };
 }
 
 @NgModule({

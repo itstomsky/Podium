@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PodiumService } from './services/podium.service';
 import { User } from './models/user.model';
@@ -11,7 +11,7 @@ import { Product } from './models/product.model';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title: string;
   isLinear = true;
   firstFormGroup: FormGroup;
@@ -20,44 +20,44 @@ export class AppComponent {
   availableProducts: Product[];
 
 
-  constructor(private _formBuilder: FormBuilder, private _config: AppConfiguration, private _podiumService: PodiumService) {
-    this.title = _config.title;
+  constructor(private formBuilder: FormBuilder, private config: AppConfiguration, private podiumService: PodiumService) {
+    this.title = config.title;
     this.availableProducts = [];
   }
 
-  ngOnInit() {
-    this.firstFormGroup = this._formBuilder.group({
+  ngOnInit(): void{
+    this.firstFormGroup = this.formBuilder.group({
       firstname: ['', Validators.required],
       lastname: ['', Validators.required],
       dob: ['', Validators.required],
       email: ['', Validators.required]
     });
 
-    this.secondFormGroup = this._formBuilder.group({
+    this.secondFormGroup = this.formBuilder.group({
       propertyValue: ['', Validators.required],
       depositAmount: ['', Validators.required]
     });
   }
 
-  registerUser(){
+  registerUser(): void{
     if (this.firstFormGroup.valid){
-      let user = new User();
+      const user = new User();
 
       user.firstName = this.firstFormGroup.get('firstname').value;
       user.lastName = this.firstFormGroup.get('lastname').value;
       user.dateOfBirth = this.firstFormGroup.get('dob').value;
-      user.email = this.firstFormGroup.get('email').value;;
+      user.email = this.firstFormGroup.get('email').value;
 
-      this._podiumService.registerUser(user).subscribe(data => this.registeredUserID = data.toString());
+      this.podiumService.registerUser(user).subscribe(data => this.registeredUserID = data.toString());
     }
   }
 
-  getAvailableProducts(){
-    if(this.secondFormGroup.valid){
-      let propertyValue = this.secondFormGroup.get('propertyValue').value;
-      let depositAmount = this.secondFormGroup.get('depositAmount').value;
+  getAvailableProducts(): void{
+    if (this.secondFormGroup.valid){
+      const propertyValue = this.secondFormGroup.get('propertyValue').value;
+      const depositAmount = this.secondFormGroup.get('depositAmount').value;
 
-      this._podiumService.getAvailableProducts(this.registeredUserID, propertyValue, depositAmount).subscribe(data => {
+      this.podiumService.getAvailableProducts(this.registeredUserID, propertyValue, depositAmount).subscribe(data => {
         this.availableProducts = data;
       });
     }

@@ -14,12 +14,13 @@ export class ConfigService extends AppConfiguration{
   }
 
   // This function needs to return a promise
-  public async load(){
+  public async load(): Promise<AppConfiguration>{
     try{
       const config = await this.http.get<AppConfiguration>('assets/config.json').toPromise();
       this.title = config.title;
       this.apiURL = config.apiURL;
-    }catch(e){
+      return config;
+    }catch (e){
       console.error('Could not load app configuration!');
     }
   }

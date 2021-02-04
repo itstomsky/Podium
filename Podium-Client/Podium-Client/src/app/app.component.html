@@ -1,5 +1,5 @@
 <mat-toolbar color="primary">
-  <span>PODIUM Product Finder</span>
+  <span>{{title}}</span>
 </mat-toolbar>
 <mat-horizontal-stepper [linear]="isLinear" #stepper>
   <mat-step [stepControl]="firstFormGroup">
@@ -69,7 +69,7 @@
     <p>We found {{this.availableProducts.length}} products for you!</p>
 
     <div *ngIf="this.availableProducts.length > 0">
-      <available-products [products]="this.availableProducts"></available-products>
+      <app-available-products [products]="this.availableProducts"></app-available-products>
     </div>
 
     <mat-list>
