@@ -5,7 +5,9 @@ Solution to Podium Exercise using Angular 11, .NET Core API and MongoDb
 In order use the Solution:
 
 1) Setup a mongodb database called "PodiumDb" with two collections "Users" and "Products".
+  
   -"Users" collection is going to store our user's details.
+  
   -"Products" collection is going to store all available mortgage products. This will be seeded by the API.
 
 2) Check appSettings.json to ensure all the database configurations are correct.
