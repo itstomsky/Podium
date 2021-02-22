@@ -41,11 +41,6 @@ namespace Podium_API.Controllers
                 if (_userService.ValidAge(id))
                 {
                     availableProducts = await _productService.FindAvailableProductsAsync(propertyValue, depositAmount);
-
-                    if(availableProducts == null)
-                    {
-                        availableProducts = new List<Product>();
-                    }
                 }
             }
             else {

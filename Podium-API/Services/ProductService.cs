@@ -37,6 +37,11 @@ namespace Podium_API.Services
                 _logger.LogError(ex.Message);
             }
 
+            if (availableProducts == null)
+            {
+                availableProducts = new List<Product>();
+            }
+
             return availableProducts;
         }
     }
